@@ -95,7 +95,32 @@ const usuario = require('../models/usuario');
     }
  }
 
+ 
+ const renewToken = async(req, res = response) => {
+
+    const uid = req.id; 
+
+    try {
+
+        //Generar un token
+        const token = await generarJWT( uid );
+
+        res.json({
+            ok: true,
+            token
+        });
+        
+    } catch (error) {
+        console.log(error);
+        res.status(401).json({
+            ok: false,
+            msg: 'token no es correcto'
+        })
+    }
+ }
+
  module.exports = {
      login,
-     googleSignIn
+     googleSignIn,
+     renewToken
  }

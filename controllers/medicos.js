@@ -40,19 +40,64 @@ const postMedico = async(req, res= response) => {
 }
 
 
-const putMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'hola'
-    });
+const putMedico = async(req, res= response) => {
+
+    const uid = req.id;
+    const medicoId = req.params.id;
+    
+    try {
+        const medicoDB = await Medico.findById( medicoId );
+
+        if (!medicoDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: "Medico no encontrado"
+            });
+        } 
+
+        const cambiosMedico = {
+            ...req.body,
+            usuario: uid
+        }
+
+        const medicoActualizado = await Medico.findByIdAndUpdate(medicoId, cambiosMedico, {new: true})  
+
+        
+        res.json({
+            ok: true,
+            medicoActualizado
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "Error inesperado"
+        });
+    }
 }
 
 
-const deleteMedico = (req, res= response) => {
-    res.json({
-        ok:true,
-        msg: 'hola'
-    });
+const deleteMedico = async(req, res= response) => {
+    const medicoId = req.params.id;
+    try {
+        const medicoDB = await Medico.findById( medicoId );
+        if (!medicoDB) {
+            return res.status(404).json({
+                ok: false,
+                msg: "medico no encontrado"
+            });
+        } 
+
+        await Medico.findByIdAndDelete( medicoId )
+        
+        res.json({
+            ok:true,
+            msg: 'medico eliminado'
+        });
+        
+    } catch (error) {
+        
+    }
 }
 
 
