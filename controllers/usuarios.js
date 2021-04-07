@@ -33,7 +33,7 @@ const postUsuario = async (req, res = response) => {
   try {
     const existeEmail = await Usuario.findOne({ email });
     if (existeEmail) {
-        return resp.status(400).json({
+        return res.status(400).json({
             ok: false,
             msg: 'El correo ya esta registrado'
         });
@@ -60,7 +60,7 @@ const postUsuario = async (req, res = response) => {
     });
   } catch (error) {
     console.log(error);
-    resp.status(500).json({
+    res.status(500).json({
       ok: false,
       msg: "Error inesperado revisar logs",
     });
@@ -124,7 +124,7 @@ const deleteUsuario = async (req, res = response) =>{
   try {
     const usuarioDB = await Usuario.findById( id );
     if (!usuarioDB) {
-      return res  .status(404).json({
+      return res.status(404).json({
         ok: false,
         msg: 'No existe un usuario por ese id'
       });
