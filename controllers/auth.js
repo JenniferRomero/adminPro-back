@@ -4,6 +4,7 @@ const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 const { googleVerify } = require('../helpers/google-verify');
 const usuario = require('../models/usuario');
+const { getMenuFrontEnd } = require('../helpers/menu-frontend');
  
  const login = async(req, res = response) => {
 
@@ -37,7 +38,8 @@ const usuario = require('../models/usuario');
 
         res.json({
             ok: true,
-            token
+            token,
+            menu: getMenuFrontEnd( usuarioDB.role )
         });
         
     } catch (error) {
@@ -83,7 +85,8 @@ const usuario = require('../models/usuario');
 
         res.json({
             ok: true,
-            token
+            token,
+            menu: getMenuFrontEnd( user.role )
         });
         
     } catch (error) {
@@ -110,7 +113,8 @@ const usuario = require('../models/usuario');
         res.json({
             ok: true,
             token,
-            usuario
+            usuario,
+            menu: getMenuFrontEnd( usuario.role )
         });
         
     } catch (error) {
