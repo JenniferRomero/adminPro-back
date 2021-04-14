@@ -28,12 +28,12 @@ const getTodoColeccion = async (req, res = response) => {
   let data = [];
 
   switch (tabla) {
-    case 'medicos':
+    case 'hospitales':
       data = await Hospital.find({ nombre: regex })
       .populate('usuario','nombre img')
       .populate('hospital','nombre img');
       break;
-    case 'hospitales':
+    case 'medicos':
       data = await Medico.find({ nombre: regex })
       .populate('usuario','nombre img');
       break;

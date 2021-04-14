@@ -96,8 +96,34 @@ const deleteMedico = async(req, res= response) => {
         });
         
     } catch (error) {
-        
+        res.status(500).json({
+            ok: false,
+            msg: "Error inesperado"
+        });
     }
+}
+
+
+const getMedicoById = async(req, res= response) => {
+    
+    const medicoId = req.params.id;
+
+    try {
+        const medico = await Medico.findById(medicoId)
+        .populate('usuario','nombre img').populate('hospital','nombre img');
+    
+        res.json({
+            ok: true,
+            medico
+        });
+    } catch (error) {
+        res.json({
+            ok: true,
+            msg: 'Hable con el administrador'
+        });
+    }
+
+
 }
 
 
@@ -105,5 +131,6 @@ module.exports = {
     getMedicos,
     postMedico,
     putMedico,
-    deleteMedico
+    deleteMedico,
+    getMedicoById
 }

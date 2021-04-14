@@ -76,7 +76,7 @@ const putUsuario = async (req, res = response) => {
   try {  
     const usuarioDB = await Usuario.findById( id );
     if (!usuarioDB) {
-      return res  .status(404).json({
+      return res.status(404).json({
         ok: false,
         msg: 'No existe un usuario por ese id'
       });
@@ -88,14 +88,21 @@ const putUsuario = async (req, res = response) => {
 
       const existeEmail = await Usuario.findOne({ email: email });
       if (existeEmail) {
-        return res.json({
+        return res.status(400).json({
           ok: false,
           msg: 'Ya existe un usuario con ese email'
         });
       }
     }
 
-    campos.email = email;
+    if (!usuarioDB.google) {
+      campos.email = email;
+    } else if (usuarioDB.email !== email){
+      return res.status(400).json({
+        ok: false,
+        msg: 'Usuarios de google no pueden cambiar su correo'
+      });
+    }
 
     // delete campos.password;
     // delete campos.google;

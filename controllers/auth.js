@@ -105,9 +105,12 @@ const usuario = require('../models/usuario');
         //Generar un token
         const token = await generarJWT( uid );
 
+        const usuario = await Usuario.findById(uid);
+
         res.json({
             ok: true,
-            token
+            token,
+            usuario
         });
         
     } catch (error) {
