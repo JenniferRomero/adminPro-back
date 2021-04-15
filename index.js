@@ -1,9 +1,11 @@
 require('dotenv').config();
+const path = require('path');
 
 const express = require('express');
 const cors = require('cors')
 
 const { dbConnection } = require('./database/config');
+const { dirname } = require('path');
 
 //crear el servidor de express
 const app = express(); 
@@ -29,7 +31,11 @@ app.use('/api/login', require('./routes/auth'));
 app.use('/api/todo', require('./routes/busquedas'));
 app.use('/api/uploads', require('./routes/uploads'));
 
+//Lo ùltimo
 
+app.get('*', (req, res) => {
+    res.sendFile( path.resolve(__dirname, 'public/index.html'));
+});
 
 app.listen(process.env.PORT, () =>{
     console.log('port ', process.env.PORT);
